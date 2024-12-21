@@ -171,4 +171,4 @@ Contribuições são bem-vindas! Para contribuir:
 ---
 
 ## **Autor**
-Desenvolvido por [Anderson Reis](https://github.com/EuAndersonDev). 🚀
+Desenvolvido por [Anderson Reis](https://www.linkedin.com/in/anderson-reis-5407311b3/). 🚀
