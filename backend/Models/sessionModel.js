@@ -1,28 +1,55 @@
-const db = require("../Config/db");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../Config/sequelize");
 
-const getAllSessions = async () => {
-    const query = `SELECT * FROM sessoes_treino`;
-    const result = await db.execute(query);
-    return result;
-};
+const Session = sequelize.define(
+    "Session",
+    {
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
+        },
+        workoutId: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            field: "workout_id",
+        },
+        exerciseId: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            field: "exercise_id",
+        },
+        sets: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: "sets",
+        },
+        repetitions: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: "repetitions",
+        },
+        weight: {
+            type: DataTypes.DECIMAL(8, 2),
+            allowNull: true,
+            field: "weight",
+        },
+        sessionDate: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+            field: "session_date",
+        },
+        notes: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+            field: "notes",
+        },
+    },
+    {
+        tableName: "sessions",
+        underscored: true,
+    }
+);
 
-const sessionsByWorkout = async (workout_id) => {
-    const query = `SELECT * FROM sessoes_treino WHERE treino_id = ?`;
-    const result = await db.execute(query, [workout_id]);
-    return result;
-};
-
-const createSession = async (session) => {
-    const dataUTC = new Date().toISOString().slice(0, 19).replace("T", " ");
-    const { treino_id, exercicio_id, series, repeticoes, peso, observacoes } = session;
-    const data = dataUTC;
-    const query = "INSERT INTO sessoes_treino (treino_id, exercicio_id, series, repeticoes, peso, data, observacoes) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    const [result] = await db.execute(query, [treino_id, exercicio_id, series, repeticoes, peso, data, observacoes,]);
-    return result;
-};
-
-module.exports = {
-    createSession,
-    getAllSessions,
-    sessionsByWorkout,
-};
+module.exports = Session;

@@ -1,55 +1,53 @@
-const workoutModel = require("../Models/workoutModel");
+const Workout = require("../Models/workoutModel");
 
 const getAllWorkouts = async (req, res) => {
     try {
-        const result = await workoutModel.getAllWorkouts();
-        res.status(200).send(result[0]);
+        const result = await Workout.findAll();
+        res.status(200).json(result);
     } catch (error) {
-        res.status(500).send("Erro ao buscar treinos.");
+        res.status(500).send("Error fetching workouts.");
     }
 };
 
 const createWorkout = async (req, res) => {
-    const { nome, usuario_id } = req.body;
-    const workout = { nome, usuario_id };
+    const { name, userId } = req.body;
     try {
-        const result = await workoutModel.createWorkout(workout);
-        res.json(workout);
+        const created = await Workout.create({ name, userId });
+        res.status(201).json(created);
     } catch (error) {
-        console.error("Erro ao criar treino:", error);
-        res.status(500).send("Erro ao criar treino.");
+        console.error("Error creating workout:", error);
+        res.status(500).send("Error creating workout.");
     }
 };
 
 const getAllWorkoutByUserId = async (req, res) => {
     const { userId } = req.params;
     try {
-        const result = await workoutModel.getAllWorkoutByUserId(userId);
-        res.status(200).send(result[0]);
+        const result = await Workout.findAll({ where: { userId } });
+        res.status(200).json(result);
     } catch (error) {
-        res.status(500).send("Erro ao buscar treinos por usuário.");
+        res.status(500).send("Error fetching workouts by user.");
     }
 };
 
 const deleteWorkout = async (req, res) => {
     const { workoutId } = req.params;
     try {
-        const result = await workoutModel.deleteWorkout(workoutId);
-        res.status(200).send("Treino deletado com sucesso.");
+        await Workout.destroy({ where: { id: workoutId } });
+        res.status(200).send("Workout deleted successfully.");
     } catch (error) {
-        res.status(500).send("Erro ao deletar treino.");
+        res.status(500).send("Error deleting workout.");
     }
 };
 
 const updateWorkout = async (req, res) => {
     const { workoutId } = req.params;
-    const { nome, usuario_id } = req.body;
-    const workout = { workoutId, nome, usuario_id };
+    const { name, userId } = req.body;
     try {
-        const result = await workoutModel.updateWorkout(workout);
-        res.status(200).send("Treino atualizado com sucesso.");
+        await Workout.update({ name, userId }, { where: { id: workoutId } });
+        res.status(200).send("Workout updated successfully.");
     } catch (error) {
-        res.status(500).send("Erro ao atualizar treino.");
+        res.status(500).send("Error updating workout.");
     }
 };
 

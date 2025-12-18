@@ -1,21 +1,35 @@
-const db = require("../Config/db");
-const bcrypt = require("bcrypt");
+const { DataTypes } = require("sequelize");
+const sequelize = require("../Config/sequelize");
 
-const createUser = async (user) => {
-    const { nome, email, senha } = user;
-    const hashedPassword = await bcrypt.hash(senha, 10);
-    const query = `INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)`;
-    const result = await db.query(query, [nome, email, hashedPassword]);
-    return result;
-};
+const User = sequelize.define(
+    "User",
+    {
+        id: {
+            type: DataTypes.UUID,
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true,
+        },
+        name: {
+            type: DataTypes.STRING(150),
+            allowNull: false,
+            field: "name",
+        },
+        email: {
+            type: DataTypes.STRING(180),
+            allowNull: false,
+            unique: true,
+            validate: { isEmail: true },
+        },
+        password: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+            field: "password",
+        },
+    },
+    {
+        tableName: "users",
+        underscored: true,
+    }
+);
 
-const findUserByEmail = async (email) => {
-    const query = `SELECT * FROM usuarios WHERE email = ?`;
-    const [result] = await db.query(query, [email]);
-    return result[0];
-};
-
-module.exports = {
-    createUser,
-    findUserByEmail,
-};
+module.exports = User;

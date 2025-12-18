@@ -4,6 +4,6 @@ const sessionController = require("../Controllers/sessionController");
 
 router.post("/session", sessionController.createSession);
 router.get("/getAllSession", sessionController.getAllSessions);
-router.get("/sessionByWorkout/:treino_id", sessionController.sessionsByWorkout);
+router.get("/sessionByWorkout/:workoutId", sessionController.sessionsByWorkout);
 
 module.exports = router;

@@ -1,49 +1,44 @@
-const exerciseModel = require('../Models/exerciseModel');
-
+const Exercise = require("../Models/exerciseModel");
 
 const getAllExercises = async (req, res) => {
     try {
-        const result = await exerciseModel.getAllExercises();
-        return res.json(result[0]);
+        const result = await Exercise.findAll();
+        return res.json(result);
     } catch (error) {
         return res.status(400).json({ error: error.message });
     }
-}
+};
 
 const createExercise = async (req, res) => {
-    const {nome, grupo_muscular, descricao} = req.body;
-    const exercise = {nome, grupo_muscular, descricao};
+    const { name, muscleGroup, description } = req.body;
     try {
-        const result = await exerciseModel.createExercise(exercise);
-        return res.json(exercise);
-    }
-    catch (error) {
+        const created = await Exercise.create({ name, muscleGroup, description });
+        return res.status(201).json(created);
+    } catch (error) {
         return res.status(400).json({ error: error.message });
-    };
+    }
 };
 
 const updateExerciseById = async (req, res) => {
-    const {id} = req.params;
-    const {nome, grupo_muscular, descricao} = req.body;
-    const exercise = {id, nome, grupo_muscular, descricao};
-    try{
-        const result = await exerciseModel.updateExerciseById(exercise);
-        return res.json(exercise);
-    }
-    catch (error) {
+    const { id } = req.params;
+    const { name, muscleGroup, description } = req.body;
+    try {
+        await Exercise.update({ name, muscleGroup, description }, { where: { id } });
+        const updated = await Exercise.findByPk(id);
+        return res.json(updated);
+    } catch (error) {
         return res.status(400).json({ error: error.message });
-    };
+    }
 };
 
 const deleteExerciseById = async (req, res) => {
-    const {id} = req.params;
+    const { id } = req.params;
     try {
-        const result = await exerciseModel.deleteExerciseById(id);
-        return res.json({ message: "Exercício deletado com sucesso!" });
-    }
-    catch (error) {
+        await Exercise.destroy({ where: { id } });
+        return res.json({ message: "Exercise deleted successfully" });
+    } catch (error) {
         return res.status(400).json({ error: error.message });
-    };
+    }
 };
 
 module.exports = {
