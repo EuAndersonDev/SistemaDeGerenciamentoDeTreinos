@@ -1,16 +1,12 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
     container_name: mysql_db
-    env_file:
-      - ./backend/.env
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASS}
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: treino_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
@@ -29,16 +25,14 @@ services:
     container_name: backend_app
     ports:
       - "3001:3000"
-    env_file:
-      - ./backend/.env
     environment:
-      PORT: ${PORT:-3000}
+      PORT: 3000
       DB_HOST: mysql
       DB_PORT: 3306
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASS}
-      DB_NAME: ${DB_DATABASE}
-      JWT_SECRET: ${JWT_SECRET}
+      DB_USER: root
+      DB_PASS: root
+      DB_DATABASE: treino_db
+      JWT_SECRET: minha_chave
       NODE_ENV: production
     depends_on:
       mysql:
