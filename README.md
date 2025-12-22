@@ -117,26 +117,26 @@ cd gerenciamento-de-treinos
 
 ## **Rotas da API**
 **Autenticação**
-- `POST /login`: Login do usuário.
-- `POST /users`: Cadastro de novos usuários.
+- `POST /userRoutes/login`: Login do usuário.
+- `POST /userRoutes/register`: Cadastro de novos usuários.
 
 **Exercícios**
-- `GET /exercises`: Lista todos os exercícios.
-- `POST /exercises`: Adiciona um novo exercício.
-- `PUT /exercises/:id`: Atualiza um exercício.
-- `DELETE /exercises/:id`: Remove um exercício.
+- `GET /exerciseRoutes/getAllExercises`: Lista todos os exercícios.
+- `POST /exerciseRoutes/createExercises`: Adiciona um novo exercício.
+- `PUT /exerciseRoutes/updateExerciseById/:id`: Atualiza um exercício.
+- `DELETE /exerciseRoutes/deleteExerciseById/:id`: Remove um exercício.
 
 **Treinos**
-- `GET /workouts`: Lista os treinos do usuário.
-- `POST /workouts`: Adiciona um novo treino.
-- `PUT /workouts/:id`: Atualiza um treino.
-- `DELETE /workouts/:id`: Remove um treino.
+- `GET /workoutRoutes/getAllWorkouts`: Lista todos os treinos.
+- `POST /workoutRoutes/workout`: Adiciona um novo treino.
+- `GET /workoutRoutes/workoutByUser/:userId`: Lista treinos por usuário.
+- `PUT /workoutRoutes/workoutUpdate/:workoutId`: Atualiza um treino.
+- `DELETE /workoutRoutes/workoutById/:workoutId`: Remove um treino.
 
 **Sessões**
-- `GET /sessions`: Lista sessões registradas.
-- `POST /sessions`: Registra uma nova sessão.
-- `PUT /sessions/:id`: Atualiza uma sessão.
-- `DELETE /sessions/:id`: Remove uma sessão.
+- `GET /sessionRoutes/getAllSession`: Lista sessões registradas.
+- `POST /sessionRoutes/session`: Registra uma nova sessão.
+- `GET /sessionRoutes/sessionByWorkout/:workoutId`: Lista sessões de um treino.
 
 **Progresso**
 - `GET /progress`: Consulta o progresso do usuário.

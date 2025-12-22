@@ -9,6 +9,20 @@ const getAllExercises = async (req, res) => {
     }
 };
 
+const getExerciseById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const exercise = await Exercise.findByPk(id);
+        if (!exercise) {
+            return res.status(404).json({ error: "Exercise not found" });
+        }
+        return res.json(exercise);
+    } catch (error) {
+        return res.status(400).json({ error: error.message });
+    }
+};
+
+
 const createExercise = async (req, res) => {
     const { name, muscleGroup, description } = req.body;
     try {
@@ -46,4 +60,5 @@ module.exports = {
     getAllExercises,
     updateExerciseById,
     deleteExerciseById,
+    getExerciseById,
 };
