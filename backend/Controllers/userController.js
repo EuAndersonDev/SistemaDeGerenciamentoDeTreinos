@@ -7,7 +7,8 @@ const tokenExpiry = process.env.TOKEN_EXPIRY || '1h';
 const createUser = async (req, res) => {
     const { name, email, password } = req.body;
     try {
-        const hashedPassword = await bcrypt.hash(password);
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
         if(!name || !email || !password){
             return res.status(400).json({ error: "require data, name, email and password" });
         }
